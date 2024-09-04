@@ -18,7 +18,7 @@ project_name = "ImageClassifierModel"
 # Creating an object of the setup class from setuptools library
 setup(
     name='ImageClassifierModel',
-    version='0.0.1',
+    version='0.0.0',
     long_description=open('readme.md', 'r').read(),
     author='Raees Azam Shaikh',
     author_email='shaikhraishazam@gmail.com',

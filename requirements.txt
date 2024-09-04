@@ -13,6 +13,7 @@ tqdm #progressing bar tool
 tensorflow
 keras
 boto3 
+python-dotenv
 Flask
 Flask-SQLAlchemy
 notebook
