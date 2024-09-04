@@ -1,0 +1,21 @@
+pandas
+numpy
+seaborn
+matplotlib
+scikit-learn
+python-box
+ensure
+joblib #to save the image binary file to system
+pip-chill #automatically fetch stable version of library for this project
+PyYAML
+types-PyYAML
+tqdm #progressing bar tool
+tensorflow
+keras
+boto3 
+Flask
+Flask-SQLAlchemy
+notebook
+ipykernel
+dill
+-e .
