@@ -12,6 +12,7 @@ import json
 import dill
 from box import ConfigBox
 from typing import Any
+import zipfile
 
 load_dotenv()  # take environment variables from .env. 
 secret_key = os.getenv(key="Secret_access_key")
@@ -38,11 +39,20 @@ def download_data_from_s3(local_data_file):
         object_key='Data.zip'
         bucket_name='raishmumbaibucket'
 
-        # Local path for the downloaded ZIP file
-        local_zip_path = os.path.join(local_data_file, os.path.basename(object_key)) #we take it from yaml files
+        # Ensure local_data_file is a directory
+        if not os.path.isdir(local_data_file):
+            os.makedirs(local_data_file, exist_ok=True)
 
-        with open(local_zip_path,"wb") as file_obj:
-            client.download_file(bucket_name,object_key,file_obj)
+        # Construct the full path to where the file will be saved
+        local_zip_path = os.path.join(local_data_file, object_key)
+
+        # Download the file from S3
+        client.download_file(bucket_name, object_key, local_zip_path)
+
+        #writing the logic to unzip the file here
+        with zipfile.ZipFile(file=local_zip_path,mode = "r") as zf:
+            #unzip the file in local_data_filepath
+            zf.extractall(path=local_data_file)
 
         logger.info(f"File Downloaded to Local_date_file {local_data_file}")
     except Exception as e:
@@ -70,7 +80,7 @@ def Create_Directory(path_to_directories:list,verbose=True):
         logger.info(f'Creating Directory')
         for filepath in path_to_directories:
             if not os.path.exists(filepath):
-                os.makedirs(filepath,exists_ok=True)
+                os.makedirs(filepath,exist_ok=True)
                 logger.info(f'Directory Created at {filepath}')
     except Exception as e:
         raise CustomException(e,sys)

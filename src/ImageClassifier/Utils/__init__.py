@@ -1,1 +1,1 @@
-from src.ImageClassifier.Utils import *
+from src.ImageClassifier.Utils.common import *
