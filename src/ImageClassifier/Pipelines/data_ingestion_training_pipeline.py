@@ -5,7 +5,7 @@ from src.ImageClassifier.Components.Data_ingestion import DataIngestion
 import os,sys
 
 
-class TrainingPipeline():
+class DataIngestionTrainingPipeline():
     def __init__(self):
         pass
 

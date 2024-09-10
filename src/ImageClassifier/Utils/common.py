@@ -88,14 +88,10 @@ def Create_Directory(path_to_directories:list,verbose=True):
 
 #Creating Function TO Save Object File
 @ensure_annotations
-def Save_Object(filepath:Path,Obj):
+def Save_Model(filepath:Path,model):
     try:
-        logger.info(f'Saving Object File {filepath}')
-        if not os.path.exists('artifacts'):
-            os.makedirs('artifacts')
-        with open(filepath,'wb') as file:
-            dill.dump(Obj,file)
-        logger.info('Object Save to Directory')
+        model.save(filepath)
+        logger.info('Model Save to Directory')
     except Exception as e:
         raise CustomException(e,sys)
 

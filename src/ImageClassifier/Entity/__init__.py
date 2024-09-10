@@ -1,1 +1,1 @@
-from src.ImageClassifier.Entity.config_entity import (DataIngestionConfig)
+from src.ImageClassifier.Entity.config_entity import *
