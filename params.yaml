@@ -7,3 +7,4 @@ classes: 2
 batch_size: 5
 epochs: 10 #1 epochs= 1fp+1bp
 learning_rate: 0.00001 #range lie btn 0 to 1 always kept as minimum as possible
+augmentation: True

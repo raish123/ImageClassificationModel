@@ -39,3 +39,21 @@ class CallBackModelConfig():
     root_dir_path:Path
     tensorboard_log_dir_path:Path
     model_checkpoint_path:Path
+
+
+#Entity For Training Model
+#updating the Entity file is nothing but parameter 
+#which is used in yaml file we r defining as a class variable
+@dataclass
+class TrainingModelConfig():
+    root_dir_path:Path
+    trained_model_path:Path
+    update_base_model_path:Path
+    training_data_dir:Path #taking value from previous entity
+    include_top:bool
+    weights:str
+    input_shape:list
+    classes:int
+    batch_size:int
+    epochs:int
+    augmentation:bool

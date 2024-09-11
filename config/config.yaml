@@ -4,7 +4,7 @@ dataingestion:
   root_dir: artifacts/data_ingestion
   source_url: s3://raishmumbaibucket/Data.zip
   local_data_file: artifacts/data_ingestion
-  unzip_dir: artifacts/data_ingestion
+  unzip_dir: artifacts/data_ingestion #this is path were training data exist
 
 
 prepare_base_model:
@@ -18,3 +18,8 @@ prepare_callback_model:
   tensorboard_log_dir_path: artifacts/callback_model/tensorboard_log_dir_path
   model_checkpoint_path: artifacts/callback_model/model_checkpoint_path/model.h5 #after training best_model will save into this path in filename model.h5
   
+
+prepare_training:
+  root_dir_path: artifacts/training
+  trained_model_path: artifacts/training/model.h5
+  training_data_dir: artifacts/data_ingestion/Data

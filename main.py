@@ -1,6 +1,7 @@
 from src.ImageClassifier.Pipelines.data_ingestion_training_pipeline import DataIngestionTrainingPipeline
 from src.ImageClassifier.Pipelines.basemodel_training_pipeline import BaseModelTrainingPipeline
 from src.ImageClassifier.Pipelines.callback_model_training_pipeline import CallbackModelTrainingPipeline
+from src.ImageClassifier.Pipelines.training_model_pipeline import TrainingModelPipeline
 from src.ImageClassifier.loggers import logger
 import os,sys
 from src.ImageClassifier.Exception import CustomException
@@ -52,6 +53,25 @@ try:
     cbtp.main()
 
     logger.info(f">>> stage {stage_name3} stopped <<<")
+
+
+except Exception as e:
+    raise CustomException(e,sys)
+
+
+print()
+logger.info('*'*100)
+
+
+stage_name4 = 'Training Model Stage'
+
+try:
+    logger.info(f">>> stage {stage_name4} started <<<")
+
+    tm = TrainingModelPipeline()
+    tm.main()
+
+    logger.info(f">>> stage {stage_name4} stopped <<<")
 
 
 except Exception as e:

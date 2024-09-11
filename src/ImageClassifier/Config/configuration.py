@@ -2,7 +2,7 @@ from src.ImageClassifier.Utils import download_data_from_s3,read_yaml_file,Creat
 from src.ImageClassifier.Constants import *
 from src.ImageClassifier.Exception import CustomException
 from src.ImageClassifier.loggers import logger
-from src.ImageClassifier.Entity import DataIngestionConfig,CallBackModelConfig,PrepareBaseModelConfig
+from src.ImageClassifier.Entity import DataIngestionConfig,CallBackModelConfig,PrepareBaseModelConfig,TrainingModelConfig
 
 
 #update the configuration manager file in src/config/conbfiguration.py
@@ -55,19 +55,54 @@ class ConfigurationManager():
         return base_model_config
     
     #now initialize the class variable value to it-->for which we are creating method
-    def get_callback_config(self) ->CallBackModelConfig:
-        self.config = self.config.prepare_callback_model #rtn value as config dictatonary
+    def get_callback_config(self) -> CallBackModelConfig:
+        try:
+            # Accessing the prepare_callback_model section of the config
+            callback_config = self.config.prepare_callback_model
 
-        self.chkpt_directory = os.path.dirname(self.config.model_checkpoint_path)
+            # Creating necessary directories for callback artifacts
+            chkpt_directory = os.path.dirname(callback_config.model_checkpoint_path)
+            Create_Directory([callback_config.root_dir_path, chkpt_directory])
 
-        #creating directory artifacts/callback_model 
-        Create_Directory([self.config.root_dir_path,self.chkpt_directory])
+            # Creating and returning the CallBackModelConfig object
+            call_back_config =  CallBackModelConfig(
+                root_dir_path=callback_config.root_dir_path,
+                tensorboard_log_dir_path=callback_config.tensorboard_log_dir_path,
+                model_checkpoint_path=callback_config.model_checkpoint_path
+            )
+            return call_back_config
 
-        #now initializing value to CallBackModelConfig class variable and taking rtn as function creating an object first
-        call_back_config = CallBackModelConfig(
-            root_dir_path=self.config.root_dir_path,
-            tensorboard_log_dir_path=self.config.tensorboard_log_dir_path,
-            model_checkpoint_path=self.config.model_checkpoint_path
-        )
+        except KeyError as e:
+            raise CustomException(f"KeyError in callback config: {e}", sys)
+        except Exception as e:
+            raise CustomException(f"An error occurred in callback config: {e}", sys)
+    
 
-        return call_back_config
+    # Method to initialize the training configuration and return the TrainingModelConfig object
+    def get_training_config(self) -> TrainingModelConfig:
+        try:
+            # Accessing the prepare_training section of the config
+            training_config = self.config.prepare_training
+
+            # Creating the necessary directories for training artifacts
+            Create_Directory([training_config.root_dir_path])
+
+            # Creating and returning the TrainingModelConfig object
+            return TrainingModelConfig(
+                root_dir_path=training_config.root_dir_path,
+                trained_model_path=training_config.trained_model_path,
+                update_base_model_path=self.config.prepare_base_model.update_base_model_path,
+                include_top=self.param.include_top,
+                weights=self.param.weights,
+                input_shape=self.param.input_shape,
+                classes=self.param.classes,
+                batch_size=self.param.batch_size,
+                epochs=self.param.epochs,
+                training_data_dir=training_config.training_data_dir,
+                augmentation=self.param.augmentation
+            )
+
+        except KeyError as e:
+            raise CustomException(f"KeyError in training config: {e}", sys)
+        except Exception as e:
+            raise CustomException(f"An error occurred in training config: {e}", sys)
