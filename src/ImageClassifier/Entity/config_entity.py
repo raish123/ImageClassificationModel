@@ -57,3 +57,12 @@ class TrainingModelConfig():
     batch_size:int
     epochs:int
     augmentation:bool
+
+
+@dataclass
+class EvaluatingModelConfig():
+    trained_model_path:Path
+    training_data_dir:Path #path where image dataset contain
+    all_param:dict
+    batch_size:int
+    input_shape:list

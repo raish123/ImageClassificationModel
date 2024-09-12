@@ -2,7 +2,7 @@ from src.ImageClassifier.Utils import download_data_from_s3,read_yaml_file,Creat
 from src.ImageClassifier.Constants import *
 from src.ImageClassifier.Exception import CustomException
 from src.ImageClassifier.loggers import logger
-from src.ImageClassifier.Entity import DataIngestionConfig,CallBackModelConfig,PrepareBaseModelConfig,TrainingModelConfig
+from src.ImageClassifier.Entity import DataIngestionConfig,CallBackModelConfig,PrepareBaseModelConfig,TrainingModelConfig,EvaluatingModelConfig
 
 
 #update the configuration manager file in src/config/conbfiguration.py
@@ -106,3 +106,17 @@ class ConfigurationManager():
             raise CustomException(f"KeyError in training config: {e}", sys)
         except Exception as e:
             raise CustomException(f"An error occurred in training config: {e}", sys)
+        
+    def get_evaluation_config(self) ->EvaluatingModelConfig:
+        #local variable
+        eval = self.config.prepare_training
+
+        #creating an object of EvaluatingModelConfig class
+        eval_model_config = EvaluatingModelConfig(
+            trained_model_path=eval.trained_model_path,
+            training_data_dir=eval.training_data_dir,
+            all_param=self.param,
+            batch_size=self.param.batch_size,
+            input_shape=self.param.input_shape
+        )
+        return eval_model_config

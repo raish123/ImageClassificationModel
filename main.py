@@ -2,6 +2,7 @@ from src.ImageClassifier.Pipelines.data_ingestion_training_pipeline import DataI
 from src.ImageClassifier.Pipelines.basemodel_training_pipeline import BaseModelTrainingPipeline
 from src.ImageClassifier.Pipelines.callback_model_training_pipeline import CallbackModelTrainingPipeline
 from src.ImageClassifier.Pipelines.training_model_pipeline import TrainingModelPipeline
+from src.ImageClassifier.Pipelines.evaluating_model_pipeline import EvaluatingModelPipeline
 from src.ImageClassifier.loggers import logger
 import os,sys
 from src.ImageClassifier.Exception import CustomException
@@ -72,6 +73,25 @@ try:
     tm.main()
 
     logger.info(f">>> stage {stage_name4} stopped <<<")
+
+
+except Exception as e:
+    raise CustomException(e,sys)
+
+
+print()
+logger.info('*'*100)
+
+
+stage_name5 = 'Evaluating Model Stage'
+
+try:
+    logger.info(f">>> stage {stage_name5} started <<<")
+
+    emp = EvaluatingModelPipeline()
+    emp.main()
+
+    logger.info(f">>> stage {stage_name5} stopped <<<")
 
 
 except Exception as e:
