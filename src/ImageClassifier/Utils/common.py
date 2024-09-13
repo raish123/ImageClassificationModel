@@ -134,3 +134,21 @@ def Load_Binary_File(filepath: Path) -> Any:
 
     except Exception as e:
         raise CustomException(e,sys)
+    
+
+# Function to encode image to base64
+import base64
+@ensure_annotations
+def encode_image(image_path):
+    with open(image_path, "rb") as img_file:
+        encoded_string = base64.b64encode(img_file.read()).decode('utf-8')
+    return encoded_string
+
+
+
+# Function to decode base64 string back to image
+@ensure_annotations
+def decode_image(encoded_string, output_image_path):
+    img_data = base64.b64decode(encoded_string)
+    with open(output_image_path, "wb") as img_file:
+        img_file.write(img_data)
