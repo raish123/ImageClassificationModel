@@ -5,5 +5,6 @@ import os,sys
 try:
     logger.info("Checking For logs")
     a = 1/0
+    b=1/0
 except Exception as e:
     raise CustomException(e,sys)
